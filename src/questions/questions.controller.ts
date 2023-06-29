@@ -21,14 +21,15 @@ import { JwtGuard } from '../auth/auth.jwt.guard';
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
-  @Post(':mapId')
+  @Post('/new/:mapId')
   create(@Body() dto: CreateQuestionDto, @Param('mapId') mapId: string) {
     return this.questionsService.create(dto, mapId);
   }
 
-  @Get()
-  findAll() {
-    return this.questionsService.findAll();
+  @Get('/all/:mapId')
+  findAll(@Param('mapId') mapId: string) {
+    console.log(mapId);
+    return this.questionsService.findAll(mapId);
   }
 
   @Get(':id')

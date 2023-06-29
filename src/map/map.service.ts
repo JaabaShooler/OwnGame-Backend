@@ -23,8 +23,15 @@ export class MapService {
   }
 
   findAll() {
-    return this.repository.findBy({
-      visibility: VISIBILITY.PUBLIC,
+    return this.repository.find({
+      where: {
+        visibility: VISIBILITY.PUBLIC,
+      },
+      relations: {
+        questions: {
+          files: true,
+        },
+      },
     });
   }
 

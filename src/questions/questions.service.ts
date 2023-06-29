@@ -21,8 +21,12 @@ export class QuestionsService {
     });
   }
 
-  findAll() {
-    return `This action returns all questions`;
+  findAll(mapId: string) {
+    return this.repository.findBy({
+      map: {
+        id: mapId,
+      },
+    });
   }
 
   findOne(id: number) {
