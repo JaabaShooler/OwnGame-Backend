@@ -48,21 +48,16 @@ export class FilesController {
 
   @Get('/all/:questionId')
   findAll(@Param('questionId') questionId: string) {
-    return this.filesService.findAll(questionId);
+    return this.filesService.findAllFilesForOneQuestion(questionId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.filesService.findOne(+id);
+  @Get(':fileId')
+  findOne(@Param('fileId') id: string) {
+    return this.filesService.findOneFile(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFileDto: UpdateFileDto) {
-    return this.filesService.update(+id, updateFileDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.filesService.remove(+id);
+  @Delete(':fileId')
+  remove(@Param('fileId') id: string) {
+    return this.filesService.removeOneFile(id);
   }
 }

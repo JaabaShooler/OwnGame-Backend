@@ -24,26 +24,26 @@ export class MapController {
 
   @Post()
   async create(@Body() dto: CreateMapDto, @UserId() userId: string) {
-    return await this.mapService.create(dto, userId);
+    return await this.mapService.createMap(dto, userId);
   }
 
   @Get('/all')
-  findAll() {
-    return this.mapService.findAll();
+  findAllPublicMaps() {
+    return this.mapService.findAllMaps();
   }
 
   @Get('/my')
-  findOne(@UserId() userId: string) {
-    return this.mapService.findByCreator(userId);
+  findMapsByCreator(@UserId() userId: string) {
+    return this.mapService.findMapByCreator(userId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMapDto: UpdateMapDto) {
-    return this.mapService.update(+id, updateMapDto);
+  updateMap(@Param('id') id: string, @Body() updateMapDto: UpdateMapDto) {
+    return this.mapService.updateMap(id, updateMapDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.mapService.remove(+id);
+    return this.mapService.removeMap(id);
   }
 }

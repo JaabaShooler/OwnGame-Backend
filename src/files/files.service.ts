@@ -22,7 +22,7 @@ export class FilesService {
     });
   }
 
-  findAll(questionId: string) {
+  findAllFilesForOneQuestion(questionId: string) {
     return this.repository.findBy({
       question: {
         id: questionId,
@@ -30,15 +30,15 @@ export class FilesService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} file`;
+  findOneFile(fileId: string) {
+    return this.repository.findOneBy({
+      id: fileId,
+    });
   }
 
-  update(id: number, updateFileDto: UpdateFileDto) {
-    return `This action updates a #${id} file`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} file`;
+  removeOneFile(fileId: string) {
+    return this.repository.delete({
+      id: fileId,
+    });
   }
 }

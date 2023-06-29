@@ -13,7 +13,7 @@ export class MapService {
     private repository: Repository<MapEntity>,
     private userService: UsersService,
   ) {}
-  async create(dto: CreateMapDto, userId: string) {
+  async createMap(dto: CreateMapDto, userId: string) {
     const user = await this.userService.findById(userId);
     return this.repository.save({
       ...dto,
@@ -22,7 +22,7 @@ export class MapService {
     });
   }
 
-  findAll() {
+  findAllMaps() {
     return this.repository.find({
       where: {
         visibility: VISIBILITY.PUBLIC,
@@ -35,7 +35,7 @@ export class MapService {
     });
   }
 
-  async findByCreator(userId: string) {
+  async findMapByCreator(userId: string) {
     return this.repository.findBy({
       user: {
         id: userId,
@@ -43,11 +43,14 @@ export class MapService {
     });
   }
 
-  update(id: number, updateMapDto: UpdateMapDto) {
-    return `This action updates a #${id} map`;
+  async updateMap(id: string, updateMapDto: UpdateMapDto) {
+    const property = await this.repository.findOne({
+      where: { id },
+    });
+    return this.repository.save({ ...property, ...updateMapDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} map`;
+  removeMap(id: string) {
+    return this.repository.delete({ id: id });
   }
 }

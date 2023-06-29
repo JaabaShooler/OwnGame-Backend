@@ -23,30 +23,30 @@ export class QuestionsController {
 
   @Post('/new/:mapId')
   create(@Body() dto: CreateQuestionDto, @Param('mapId') mapId: string) {
-    return this.questionsService.create(dto, mapId);
+    return this.questionsService.createQuestion(dto, mapId);
   }
 
   @Get('/all/:mapId')
   findAll(@Param('mapId') mapId: string) {
     console.log(mapId);
-    return this.questionsService.findAll(mapId);
+    return this.questionsService.findAllQuestionsForOneMap(mapId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
+  @Get('one/:questionId')
+  findOne(@Param('questionId') id: string) {
+    return this.questionsService.findOneQuestion(id);
   }
 
-  @Patch(':id')
+  @Patch(':questionId')
   update(
-    @Param('id') id: string,
+    @Param('questionId') id: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
   ) {
-    return this.questionsService.update(+id, updateQuestionDto);
+    return this.questionsService.updateQuestion(id, updateQuestionDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.questionsService.remove(+id);
+  @Delete(':questionId')
+  removeQuestion(@Param('questionId') id: string) {
+    return this.questionsService.removeQuestion(id);
   }
 }

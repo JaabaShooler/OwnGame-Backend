@@ -12,7 +12,7 @@ export class QuestionsService {
     private readonly repository: Repository<QuestionEntity>,
   ) {}
 
-  create(dto: CreateQuestionDto, mapId: string) {
+  createQuestion(dto: CreateQuestionDto, mapId: string) {
     return this.repository.save({
       ...dto,
       map: {
@@ -21,23 +21,35 @@ export class QuestionsService {
     });
   }
 
-  findAll(mapId: string) {
-    return this.repository.findBy({
-      map: {
-        id: mapId,
+  findAllQuestionsForOneMap(mapId: string) {
+    return this.repository.find({
+      where: {
+        map: {
+          id: mapId,
+        },
+      },
+      relations: {
+        files: true,
       },
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} question`;
+  findOneQuestion(questionId: string) {
+    return this.repository.findOne({
+      where: {
+        id: questionId,
+      },
+    });
   }
 
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    return `This action updates a #${id} question`;
+  async updateQuestion(id: string, updateQuestionDto: UpdateQuestionDto) {
+    const property = await this.repository.findOne({
+      where: { id },
+    });
+    return this.repository.save({ ...property, ...updateQuestionDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} question`;
+  removeQuestion(id: string) {
+    return this.repository.delete({ id: id });
   }
 }
