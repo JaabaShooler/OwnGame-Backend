@@ -2,8 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
@@ -11,7 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { FilesService } from './files.service';
-import { UpdateFileDto } from './dto/update-file.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileStorage } from './storage';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';

@@ -31,6 +31,27 @@ export class QuestionsService {
       relations: {
         files: true,
       },
+      order: {
+        orderX: 'ASC',
+        orderY: 'ASC',
+      },
+    });
+  }
+
+  findAllQuestionsByCategoryName(mapId: string, categoryName: string) {
+    return this.repository.find({
+      where: {
+        categoryName,
+        map: {
+          id: mapId,
+        },
+      },
+      relations: {
+        files: true,
+      },
+      order: {
+        cost: 'ASC',
+      },
     });
   }
 

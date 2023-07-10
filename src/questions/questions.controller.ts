@@ -28,8 +28,18 @@ export class QuestionsController {
 
   @Get('/all/:mapId')
   findAll(@Param('mapId') mapId: string) {
-    console.log(mapId);
     return this.questionsService.findAllQuestionsForOneMap(mapId);
+  }
+
+  @Get('/:category/:mapId')
+  findAllByCategory(
+    @Param('category') category: string,
+    @Param('mapId') mapId: string,
+  ) {
+    return this.questionsService.findAllQuestionsByCategoryName(
+      mapId,
+      category,
+    );
   }
 
   @Get('one/:questionId')

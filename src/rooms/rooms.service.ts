@@ -4,7 +4,12 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 
 @Injectable()
 export class RoomsService {
+  a = 0;
   create(createRoomDto: CreateRoomDto) {
+    return 'This action adds a new room';
+  }
+
+  test(createRoomDto: CreateRoomDto) {
     return 'This action adds a new room';
   }
 
