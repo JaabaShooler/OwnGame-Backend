@@ -23,51 +23,37 @@ export class RoomsGateway
   private logger: Logger = new Logger('RoomsGateway');
   constructor(private readonly roomsService: RoomsService) {}
 
-  @WebSocketServer() io: Namespace;
+  @WebSocketServer() server: Namespace;
+
+  getServer() {
+    return this.server;
+  }
 
   afterInit(initServer: any) {
     this.logger.log('Initialized!');
   }
 
   handleConnection(client: any, ...args: any[]): any {
-    const sockets = this.io.sockets;
+    const sockets = this.server.sockets;
+    const { token } = client.handshake.query;
+    if (!token) {
+      client.disconnect(true);
+    }
+    client.join(token);
+    this.server
+      .to(token)
+      .emit('connected', `Client with id: ${client.id} - connected.`);
     this.logger.log(`Client with id: ${client.id} - connected.`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}.`);
   }
 
   handleDisconnect(client: any): any {
-    const sockets = this.io.sockets;
+    const sockets = this.server.sockets;
     this.logger.log(`Client with id: ${client.id} - disconnected.`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}.`);
   }
 
-  @SubscribeMessage('createRoom')
-  create(@MessageBody() createRoomDto: CreateRoomDto) {
-    return this.roomsService.create(createRoomDto);
-  }
-
-  @SubscribeMessage('test')
-  test(client: Socket, json: object) {
-    this.io.emit('test', json);
-  }
-
-  @SubscribeMessage('findAllRooms')
-  findAll() {
-    return this.roomsService.findAll();
-  }
-
-  @SubscribeMessage('findOneRoom')
-  findOne(@MessageBody() id: number) {
-    return this.roomsService.findOne(id);
-  }
-
-  @SubscribeMessage('updateRoom')
-  update(@MessageBody() updateRoomDto: UpdateRoomDto) {
-    return this.roomsService.update(updateRoomDto.id, updateRoomDto);
-  }
-
-  @SubscribeMessage('removeRoom')
-  remove(@MessageBody() id: number) {
-    return this.roomsService.remove(id);
+  emit(message: string, data: any, room: string) {
+    this.server.to(room).emit(message, data);
   }
 }
