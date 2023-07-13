@@ -1,15 +1,11 @@
 import {
   WebSocketGateway,
-  SubscribeMessage,
-  MessageBody,
   WebSocketServer,
   OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { RoomsService } from './rooms.service';
-import { CreateRoomDto } from './dto/create-room.dto';
-import { UpdateRoomDto } from './dto/update-room.dto';
 import { Socket, Namespace } from 'socket.io';
 import { Logger } from '@nestjs/common';
 
@@ -29,11 +25,11 @@ export class RoomsGateway
     return this.server;
   }
 
-  afterInit(initServer: any) {
-    this.logger.log('Initialized!');
+  afterInit() {
+    this.logger.log('|--RoomsGateway is initialized!');
   }
 
-  handleConnection(client: any, ...args: any[]): any {
+  handleConnection(client: Socket): void {
     const sockets = this.server.sockets;
     const { token } = client.handshake.query;
     if (!token) {
@@ -47,7 +43,7 @@ export class RoomsGateway
     this.logger.debug(`Number of connected sockets: ${sockets.size}.`);
   }
 
-  handleDisconnect(client: any): any {
+  handleDisconnect(client: Socket): void {
     const sockets = this.server.sockets;
     this.logger.log(`Client with id: ${client.id} - disconnected.`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}.`);

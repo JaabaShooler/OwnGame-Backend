@@ -13,6 +13,9 @@ import { MapEntity } from './map/entities/map.entity';
 import { QuestionEntity } from './questions/entities/question.entity';
 import { FilesModule } from './files/files.module';
 import { FileEntity } from './files/entities/file.entity';
+import { TeamModule } from './team/team.module';
+import { RoomEntity } from './rooms/entities/room.entity';
+import { TeamEntity } from './team/entities/team.entity';
 
 @Module({
   imports: [
@@ -24,7 +27,14 @@ import { FileEntity } from './files/entities/file.entity';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [UserEntity, MapEntity, QuestionEntity, FileEntity],
+      entities: [
+        UserEntity,
+        MapEntity,
+        QuestionEntity,
+        FileEntity,
+        RoomEntity,
+        TeamEntity,
+      ],
       synchronize: true,
     }),
     UsersModule,
@@ -33,6 +43,7 @@ import { FileEntity } from './files/entities/file.entity';
     RoomsModule,
     QuestionsModule,
     FilesModule,
+    TeamModule,
   ],
   controllers: [AppController],
   providers: [AppService],
